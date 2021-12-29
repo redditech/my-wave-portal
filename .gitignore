@@ -112,6 +112,6 @@ typechain
 #Hardhat files
 cache
 artifacts
-./hardhat.config.js
 
-README.md
+hardhat.config.js
+
