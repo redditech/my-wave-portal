@@ -35,6 +35,18 @@
         hre.ethers.utils.formatEther(contractBalance)
     );
 
+    // try to spam before cooldown
+    waveTxn = await waveContract.wave("A spam message!");
+    await waveTxn.wait(); // Wait for the transaction to be mined
+
+    // get contract balance to see what happened
+    contractBalance = await hre.ethers.provider.getBalance(waveContract.address);
+    console.log(
+        "Contract Balance: ",
+        hre.ethers.utils.formatEther(contractBalance)
+    );
+
+    // try another user
     waveTxn = await waveContract.connect(randomPerson).wave("Another message!");
     await waveTxn.wait(); // Wait for the transaction to be mined
     // get contract balance to see what happened

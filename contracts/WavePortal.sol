@@ -31,6 +31,10 @@ contract WavePortal {
      */
     Wave[] waves;
 
+    // an address => uint mapping, so an address can be associated with a number
+    // used to store the address of the last user who waved
+    mapping(address => uint256) public lastWavedAt;
+
     constructor() payable {
         console.log("Yo yo, I am a contract and I am smart");
 
@@ -39,6 +43,16 @@ contract WavePortal {
 
     // Require the function to have a message, the message the user sends us
     function wave(string memory _message) public {
+        // ensure the current timestamp is at least 15 minutes bigger
+        // than the last timestmap
+        require(
+            lastWavedAt[msg.sender] + 30 seconds < block.timestamp,
+            "Wait 30s"
+        );
+
+        // update the current timestamp we have for the user
+        lastWavedAt[msg.sender] = block.timestamp;
+
         totalWaves += 1;
         console.log("%s has waved with message %s", msg.sender, _message);
 
